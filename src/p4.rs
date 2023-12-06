@@ -32,7 +32,7 @@ pub fn a(){
             .checked_sub(1)
             .map(|n|1 << n)
             .unwrap_or(0);
-        dbg!(score);
+        //dbg!(score);
         total += score;
     }
     println!("{}",total)

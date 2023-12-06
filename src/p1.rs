@@ -1,6 +1,6 @@
 use std::{fs::read_to_string, collections::BTreeMap};
 
-pub fn p1_a(){
+pub fn a(){
     let offset = "0".as_bytes()[0];
     let mut sum : u64 = 0;
     for line in read_to_string("input_1").unwrap().lines() {
@@ -24,7 +24,7 @@ pub fn p1_a(){
     println!("{}",sum);
 }
 
-pub fn p1_b(){
+pub fn b(){
     let offset = "0".as_bytes()[0];
     let mut sum : u64 = 0;
     let names: BTreeMap<&str,u64> = BTreeMap::from([

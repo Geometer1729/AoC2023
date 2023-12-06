@@ -17,7 +17,7 @@ pub fn a(){
                  || m.get("green") > Some(&13)
                  || m.get("blue") > Some(&14)
         ) {
-            println!("{}",game.ind);
+            //println!("{}",game.ind);
             sum += game.ind;
         }
     }
@@ -31,7 +31,7 @@ pub fn b(){
         let power = min_for(&game,"green")
                   * min_for(&game,"blue")
                   * min_for(&game,"red");
-        println!("{}",power);
+        //println!("{}",power);
         sum += power;
     }
     println!("{}",sum);

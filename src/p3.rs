@@ -100,7 +100,7 @@ pub fn b() {
             }
         }
     }
-    dbg!(gears.clone());
+    //dbg!(gears.clone());
     println!("{}",gears
              .values()
              .filter(|parts|parts.len() >= 2)
