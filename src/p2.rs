@@ -6,31 +6,34 @@ struct Game<'a> {
 }
 
 pub fn a() {
-    let mut sum = 0;
-    for line in read_to_string("input_2").unwrap().lines() {
-        let game = parse_game(line);
-        if !game.draws.iter().any(|m|
-                 // Either this handles None corectly
-                 // // or there is always an entry for each color
-                 m.get("red") > Some(&12)
-                 || m.get("green") > Some(&13)
-                 || m.get("blue") > Some(&14))
-        {
-            //println!("{}",game.ind);
-            sum += game.ind;
-        }
-    }
+    let sum: usize = read_to_string("input_2")
+        .expect("no file")
+        .lines()
+        .map(parse_game)
+        .filter(|game| {
+            game.draws.iter().all(|m| {
+                [("red", 12), ("green", 13), ("blue", 14)]
+                    .iter()
+                    .all(|(color, max)| m.get(color) <= Some(max))
+            })
+        })
+        .map(|game| game.ind)
+        .sum();
     println!("{}", sum);
 }
 
 pub fn b() {
-    let mut sum = 0;
-    for line in read_to_string("input_2").unwrap().lines() {
-        let game = parse_game(line);
-        let power = min_for(&game, "green") * min_for(&game, "blue") * min_for(&game, "red");
-        //println!("{}",power);
-        sum += power;
-    }
+    let sum: u64 = read_to_string("input_2")
+        .expect("no file")
+        .lines()
+        .map(parse_game)
+        .map(|game| {
+            ["red", "green", "blue"]
+                .iter()
+                .map(|color| min_for(&game, color))
+                .product::<u64>()
+        })
+        .sum();
     println!("{}", sum);
 }
 

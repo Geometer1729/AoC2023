@@ -60,7 +60,6 @@ fn make_edge(ent: &Vec<i64>) -> Vec<i64> {
     edge
 }
 
-
 fn choose(a: i64, b: i64) -> i64 {
     if b == 0 {
         1

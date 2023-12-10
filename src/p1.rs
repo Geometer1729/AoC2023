@@ -1,21 +1,25 @@
 use std::{collections::BTreeMap, fs::read_to_string};
 
 pub fn a() {
-    let offset = "0".as_bytes()[0];
-    let mut sum: u64 = 0;
-    for line in read_to_string("input_1").unwrap().lines() {
-        let bs = line.as_bytes();
-        let c1: u64 = (bs[line.find(|c: char| c.is_digit(10)).expect("no digits")] - offset) as u64;
-        let c2: u64 =
-            (bs[line.rfind(|c: char| c.is_digit(10)).expect("no digits")] - offset) as u64;
-        sum += c1 * 10 + c2;
-    }
+    let sum = read_to_string("input_1")
+        .expect("no file")
+        .lines()
+        .map(|line| {
+            let ld = line
+                .chars()
+                .find(|&c: &char| c.is_digit(10))
+                .expect("no digits");
+            let rd = line
+                .chars()
+                .rfind(|&c: &char| c.is_digit(10))
+                .expect("no digits");
+            ((ld as u8 - '0' as u8) * 10 + (rd as u8 - '0' as u8)) as u64
+        })
+        .sum::<u64>();
     println!("{}", sum);
 }
 
 pub fn b() {
-    let offset = "0".as_bytes()[0];
-    let mut sum: u64 = 0;
     let names: BTreeMap<&str, u64> = BTreeMap::from([
         ("zero", 0),
         ("one", 1),
@@ -29,46 +33,36 @@ pub fn b() {
         ("nine", 9),
     ]);
 
-    for line in read_to_string("input_1").unwrap().lines() {
-        let bs = line.as_bytes();
-        let mut ls = BTreeMap::new();
-        let dl = line.find(|c: char| c.is_digit(10));
-        match dl {
-            Some(ind) => {
-                ls.insert(ind, (bs[ind] - offset) as u64);
-            }
-            None => {}
-        }
-        for (name, val) in &names {
-            match line.find(name) {
-                Some(ind) => {
-                    ls.insert(ind, *val);
-                }
-                None => {}
-            }
-        }
-        let (_, &cl) = ls.first_key_value().expect("ls empty");
+    let sum: u64 = read_to_string("input_1")
+        .expect("no file")
+        .lines()
+        .map(|line| {
+            let mut ls = BTreeMap::new();
+            let (l_ind, l_dig) = line
+                .char_indices()
+                .find(|&(_, c)| c.is_digit(10))
+                .expect("no digits");
+            ls.insert(l_ind, (l_dig as u8 - '0' as u8) as u64);
 
-        // TODO this is kinda cringe repeditive
-        let mut rs = BTreeMap::new();
-        let dr = line.rfind(|c: char| c.is_digit(10));
-        match dr {
-            Some(ind) => {
-                rs.insert(ind, (bs[ind] - offset) as u64);
-            }
-            None => {}
-        }
-        for (name, val) in &names {
-            match line.rfind(name) {
-                Some(ind) => {
-                    rs.insert(ind, *val);
-                }
-                None => {}
-            }
-        }
-        let (_, &cr) = rs.last_key_value().expect("rs empty");
+            let mut rs = BTreeMap::new();
+            let (r_ind, r_dig) = line
+                .char_indices()
+                .rfind(|&(_, c)| c.is_digit(10))
+                .expect("no digits");
+            rs.insert(r_ind, (r_dig as u8 - '0' as u8) as u64);
 
-        sum += cl * 10 + cr;
-    }
+            for (name, &val) in &names {
+                line.find(name).map(|ind| {
+                    ls.insert(ind, val);
+                });
+                line.rfind(name).map(|ind| {
+                    rs.insert(ind, val);
+                });
+            }
+            let &cl = ls.first_key_value().expect("ls empty").1;
+            let &cr = rs.last_key_value().expect("rs empty").1;
+            10 * cl + cr
+        })
+        .sum();
     println!("{}", sum);
 }
