@@ -24,10 +24,10 @@ pub fn b() {
     let txt = read_to_string("input_4").expect("no file or so");
     let lines = txt.lines().collect::<Vec<_>>();
     let mut mults = vec![1; lines.len()];
-    let total : u64 = lines
+    let total: u64 = lines
         .iter()
         .enumerate()
-        .map(|(ind,line)| {
+        .map(|(ind, line)| {
             let (card_have_raw, wining_raw) = line.split_once("|").expect("no |");
             let have_raw = card_have_raw.split_once(":").expect("no :").1;
             let wining: Vec<u64> = parse_words(wining_raw).collect();
