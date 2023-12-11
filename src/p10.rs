@@ -49,7 +49,7 @@ fn parse() -> ((usize, usize), Vec<Vec<[bool; 4]>>) {
                         start = (line_num, pos);
                         [false, true, false, true]
                     }
-                    c => panic!("bad char {}",c),
+                    c => panic!("bad char {}", c),
                 })
                 .collect()
         })
