@@ -15,26 +15,16 @@ pub fn b() {
 }
 
 fn parse() -> (Vec<usize>, Vec<usize>) {
-    let mut xs = Vec::new();
-    let mut ys = Vec::new();
     read_to_string("input_11")
         .expect("no file or so")
         .lines()
         .enumerate()
-        .for_each(|(y, line)| {
+        .flat_map(|(y, line)| {
             line.char_indices()
                 .filter(|(_x, c)| *c == '#')
                 .map(move |(x, _c)| (x, y))
-                .for_each(|(x, y)| {
-                    xs.push(x);
-                    ys.push(y);
-                })
-        });
-    // I want to do this with something like
-    // maps instead of for_each and .kmerge().unzip()
-    // but kmerge has a bunch of sorting overhead
-    // I can't find a simple fold_chain() type thing
-    (xs, ys)
+        })
+        .unzip()
 }
 
 fn count(v: Vec<usize>, scale: usize) -> i64 {
