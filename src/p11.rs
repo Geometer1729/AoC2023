@@ -21,7 +21,7 @@ fn parse() -> (Vec<usize>, Vec<usize>) {
         .enumerate()
         .flat_map(|(y, line)| {
             line.char_indices()
-                .filter(|(_x, c)| *c == '#')
+                .filter(|&(_x, c)| c == '#')
                 .map(move |(x, _c)| (x, y))
         })
         .unzip()
