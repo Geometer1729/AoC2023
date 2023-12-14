@@ -10,3 +10,4 @@ version = "0.1.0"
 clap = { version = "4.3.14", features = ["derive"] }
 num = {version = "*"}
 itertools = { version = "*" }
+rayon = "*"

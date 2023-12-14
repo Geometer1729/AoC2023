@@ -1,6 +1,7 @@
 use std::{cmp::min, collections::HashMap, fs::read_to_string};
 
 use itertools::Itertools;
+use rayon::prelude::*;
 
 pub fn a() {
     let total: usize = read_to_string("input_12")
@@ -24,6 +25,8 @@ pub fn b() {
     let total: usize = read_to_string("input_12")
         .expect("no file or so")
         .lines()
+        .collect::<Vec<_>>()
+        .par_iter()
         .map(|line| {
             let mut table = HashMap::new();
             let (springs_raw, nums_raw) = line.split_once(' ').expect("no ' '");
