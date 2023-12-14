@@ -2,6 +2,7 @@ mod p1;
 mod p10;
 mod p11;
 mod p12;
+mod p13;
 mod p2;
 mod p3;
 mod p4;
@@ -36,4 +37,6 @@ fn main() {
     p11::b();
     p12::a();
     p12::b();
+    p13::a();
+    p13::b();
 }
